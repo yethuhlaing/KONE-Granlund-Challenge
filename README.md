@@ -1,50 +1,88 @@
-# Welcome to your Expo app 👋
+# Danfoss Machine Vision Application
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Danfoss manufactures electric machines and power electronic converters. Each unit has a unique serial number displayed on a rating plate. During production, all electric machines undergo an End-of-Line (EoL) test, where various electrical parameters are measured and stored in an SQlite database.
 
-## Get started
+## Problem
+Currently, there is no automated or user-friendly way to access the EoL test data of a machine based on its serial number. This project aims to solve this problem by developing a human-machine interface (HMI) that allows users to easily access and visualize the test data.
 
-1. Install dependencies
+## Solution
+The React Native app using Expo that serves as a Human-Machine Interface (HMI) for extracting and displaying product information based on serial numbers. The app will utilize the device's camera or allow image uploads to capture rating plates, and then employ Google Vision's OCR technology to extract the serial number. Once the serial number is obtained, the app will query a backend database to retrieve and display the relevant data to the user, providing a seamless and intuitive way to access detailed product information.
 
-   ```bash
-   npm install
-   ```
+![2](https://github.com/user-attachments/assets/1447c048-da19-4ef7-82d4-40ff7349b958)
+![3](https://github.com/user-attachments/assets/2b454570-3a65-41f9-87bb-c8841eed2c70)
 
-2. Start the app
 
-   ```bash
-    npx expo start
-   ```
+## Project Limitations and Properties
+1. **Database Access**: The app will operate within a local network environment since access to the database is not available on the public network. The database can be accessed through network drives, SharePoint, Teams, OneDrive, etc.
+2. **Platform Compatibility**: The app should be portable and compatible with both Android and iOS platforms, as both ecosystems are in use at Danfoss.
+3. **Data Display**: The app is required to display the data only. Future developments may include functionalities like logging entries (e.g., bearing changed, PM flux loss detected).
 
-In the output, you'll find options to open the app in a
+## Project Structure
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### 1. Database
+- **SQlite Database**: Stores the EoL test data for each electric machine, identified by its serial number.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### 2. Machine Vision
+- **Google Vision**: Uses the Google Vision API to read and extract the serial number from the rating plate.
 
-## Get a fresh project
+### 3. Mobile Application
+- **Frontend**: Built with React Native and Expo, providing a user-friendly interface for Android and iOS devices.
+- **Backend**: Connects to the SQlite database, queries data based on the extracted serial number, and processes the data for display.
 
-When you're ready, run:
+# Prerequisites
+- **Development Environment**: Expo CLI, Android Studio for Android, Xcode for iOS.
+- **Database**: A copy of the SQlite database accessible within the local network.
+- **Google Vision API Key**: Obtain an API key from the Google Cloud Console.
 
-```bash
-npm run reset-project
+
+# Usage
+- Launch the app on your smartphone.
+- Use the camera to scan the rating plate or upload an image file containing the rating plate.
+- The app will extract the serial number, query the database, and display the relevant EoL test data.
+
+
+# Configuration
+- Create this config/environment.js folder route in the app folder.
+- In environment.js file, use the following setup and replace your Google Vision API key.
 ```
+import Constants from 'expo-constants';
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+var environments = {
+    staging: {
+        GOOGLE_VISION_API_KEY: 'Replace your Google Vision API key'
+    },
+    production: {
+        // Warning: This file still gets included in your native binary and is not a secure way to store secrets if you build for the app stores. Details: https://github.com/expo/expo/issues/83
+    }
+};
+function getReleaseChannel() {
+    const releaseChannel = Constants?.releaseChannel;
+    if (releaseChannel === undefined) {
+        return "staging";
+    } else if (releaseChannel === "staging") {
+        return "staging";
+    } else {
+        return "staging";
+    }
+}
+function getEnvironment(env) {
+    console.log("Release Channel: ", getReleaseChannel());
+    return environments[env];
+}
+var Environment = getEnvironment(getReleaseChannel());
+export default Environment;
+```
+- Import your database in the assets/database/ folder.
+- Change your Database name in the constants/constant.ts file.
+```
+export const DEFAULTDATABASE = 'xxxxxxxx.db'
+```
+# Development
+- To run the application
+```
+npm run start
+```
+# Acknowledgments
+- Danfoss Team for providing the project background and requirements.
+- Open-source libraries and tools that facilitated the development of this project.
 
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.

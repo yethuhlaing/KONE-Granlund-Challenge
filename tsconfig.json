@@ -1,10 +1,25 @@
 {
-  "extends": "expo/tsconfig.base",
   "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "lib": [
+      "es6"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
     "strict": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "baseUrl": "./",
     "paths": {
-      "@/*": [
-        "./*"
+      "@Assets/*": [
+        "/assets/*"
+      ],
+      "@Components/*": [
+        "/components/*"
+      ],
+      "@Screens/*": [
+        "/screens/*"
       ]
     }
   },
@@ -12,6 +27,9 @@
     "**/*.ts",
     "**/*.tsx",
     ".expo/types/**/*.ts",
-    "expo-env.d.ts"
-  ]
+    "app.d.ts",
+    "expo-env.d.ts",
+    "app/home/one.tsx"
+  ],
+  "extends": "expo/tsconfig.base"
 }

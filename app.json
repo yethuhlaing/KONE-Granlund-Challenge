@@ -1,16 +1,25 @@
 {
   "expo": {
-    "name": "junction-project",
-    "slug": "junction-project",
+    "name": "danfoss-machine-vision-app",
+    "slug": "danfoss-machine-vision-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "icon": "./assets/images/icon.ico",
+    "scheme": "danfoss-machine-vision-app",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
+      "image": "./assets/images/Danfoss-bg.jpg",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "assets/**"
+    ],
+    "packagerOpts": {
+      "assetExts": [
+        "db",
+        "ico"
+      ]
     },
     "ios": {
       "supportsTablet": true
@@ -19,7 +28,11 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.yethuhlaing.danfossmachinevisionapp"
     },
     "web": {
       "bundler": "metro",
@@ -27,7 +40,23 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      "expo-asset",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera",
+          "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone",
+          "recordAudioAndroid": true
+        }
+      ],
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true
