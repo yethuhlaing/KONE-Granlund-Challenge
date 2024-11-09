@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image, ScrollView, ImageSourcePropType, ActivityIndicator, TextInput, Alert } from 'react-native'
+import { View, Text, TouchableOpacity, KeyboardAvoidingView, Image, ScrollView, ImageSourcePropType, ActivityIndicator, TextInput, Alert, Platform } from 'react-native'
 import React, { useState } from 'react'
 import * as ImagePicker from 'expo-image-picker';
 import { analyzeImage, capitalize, extractData, extractLastSerialNumber } from '../../libs/helper';
@@ -24,7 +24,7 @@ export default function folder() {
         material: '',
         condition: '',
         surveyorComments: '',
-        guid: ''
+        guid: '',
       });
     const [loading, setLoading] = useState(false);
     const updateField = (key: any, value: any) => {
@@ -35,6 +35,7 @@ export default function folder() {
     }
     const __insertData = async () => {
         if (result) {
+            console.log(result)
             db.runSync('INSERT INTO equipment (equipmentName, location, manufacturer, model, serialNumber, equipmentType, size, age, material, condition, surveyorComments, guid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
                 result.equipmentName,
                 result.location,
@@ -47,21 +48,21 @@ export default function folder() {
                 result.material,
                 result.condition,
                 result.surveyorComments,
-                result.guid
+                result.guid,
                 );
             setResult({
-                equipmentName: '',
-                location: '',
-                manufacturer: '',
-                model: '',
-                serialNumber: '',
-                equipmentType: '',
-                size: '',
-                age: '',
-                material: '',
-                condition: '',
-                surveyorComments: '',
-                guid: ''
+                    equipmentName: '',
+                    location: '',
+                    manufacturer: '',
+                    model: '',
+                    serialNumber: '',
+                    equipmentType: '',
+                    size: '',
+                    age: '',
+                    material: '',
+                    condition: '',
+                    surveyorComments: '',
+                    guid: ''
                 })
             Toast.show("Successfully Added!", {
                 duration: Toast.durations.LONG,
@@ -163,8 +164,8 @@ export default function folder() {
                 loading ? (
                     <ActivityIndicator size="large" color="#2f95dc" />
                 ): (
-                    <View>
-                        <ScrollView className='w-screen mb-10'>
+                    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} keyboardVerticalOffset={80} className='flex-1'>
+                        <ScrollView className='w-screen pb-28'>
                             {
                                 result && Object.keys(result).length > 0 && (
                                     Object.entries(result).map(([key, value]) => (
@@ -186,7 +187,7 @@ export default function folder() {
                                 ) 
                             } 
                         </ScrollView>
-                    </View>
+                    </KeyboardAvoidingView>
                 )
             }
 

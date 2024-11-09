@@ -1,6 +1,6 @@
 import { CameraCapturedPicture, CameraPictureOptions, CameraView, FlashMode, useCameraPermissions, CameraType, Camera } from 'expo-camera';
 import { useRef, useState } from 'react';
-import { Alert, Button, Image, ImageBackground, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, Button, Image, ImageBackground, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { analyzeImage, capitalize, extractData, extractLastSerialNumber } from '../../libs/helper';
 import Card from 'components/Card';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -221,28 +221,31 @@ export default function ScanPage() {
                             </View>
                         </TouchableOpacity>
                     </View>
-                    <ScrollView className='w-screen mb-10'>
-                        {
-                            result && Object.keys(result).length > 0 && (
-                                Object.entries(result).map(([key, value]) => (
-                                    <View key={key}>
-                                        <Card>
-                                            <View className='flex-row items-center'>
-                                                <FontAwesome name={keyIconMap[key] as any} size={20} style={{ marginRight: 10 }} color={"#1B55F5"} />
-                                                <Text className='font-bold text-lg pr-2'>{capitalize(key.replace(/_/g, ' '))}</Text>
-                                                <TextInput
-                                                    value={value || ''}
-                                                    onChangeText={(text) => updateField(key, text)}
-                                                    placeholder={`Enter ${key}`}
-                                                    className="p-2 border rounded"
-                                                    />
-                                            </View>
-                                        </Card>
-                                    </View>
-                                ))
-                            ) 
-                        } 
-                    </ScrollView>
+                    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} keyboardVerticalOffset={80} className='flex-1'>
+                        <ScrollView className='w-screen mb-10'>
+                            {
+                                result && Object.keys(result).length > 0 && (
+                                    Object.entries(result).map(([key, value]) => (
+                                        <View key={key}>
+                                            <Card>
+                                                <View className='flex-row items-center'>
+                                                    <FontAwesome name={keyIconMap[key] as any} size={20} style={{ marginRight: 10 }} color={"#1B55F5"} />
+                                                    <Text className='font-bold text-lg pr-2'>{capitalize(key.replace(/_/g, ' '))}</Text>
+                                                    <TextInput
+                                                        value={value || ''}
+                                                        onChangeText={(text) => updateField(key, text)}
+                                                        placeholder={`Enter ${key}`}
+                                                        className="p-2 border rounded"
+                                                        />
+                                                </View>
+                                            </Card>
+                                        </View>
+                                    ))
+                                ) 
+                            } 
+                        </ScrollView>
+                    </KeyboardAvoidingView>
+
 
                 </View>
             )

@@ -65,7 +65,7 @@ const Home = () => {
         className="bg-white p-4 mb-4 rounded-lg shadow-sm bg-[#F2F0F4]"
       >
         <Text className="text-xl font-bold mb-2">{item.equipmentName}</Text>
-        <Text className="text-gray-600">Location: {item.location}</Text>
+        <Text className="text-gray-6R00">Location: {item.location}</Text>
         <Text className="text-gray-600">Manufacturer: {item.manufacturer}</Text>
 
         {/* Show more details if the card is expanded */}
@@ -106,7 +106,7 @@ const Home = () => {
             className="py-4 bg-red-500 rounded-lg bg-[#1B55F5] w-full"
             onPress={() => handleRefresh()}
           >
-            <Text className="text-white text-center font-semibold">Refresh</Text>
+            <Text className="text-[#ffffff] text-center font-semibold">Refresh</Text>
           </TouchableOpacity>
         </View>
         <FlatList
