@@ -9,13 +9,30 @@ import Toast from 'react-native-root-toast';
 
 export default function folder() {
     const [capturedImage, setCapturedImage] = useState< undefined | ImagePicker.ImagePickerAsset>(undefined)
-    const [result, setResult] = useState('');
+    const [result, setResult] = useState({
+        equipmentName: '',
+        location: '',
+        manufacturer: '',
+        model: '',
+        serialNumber: '',
+        equipmentType: '',
+        size: '',
+        age: '',
+        material: '',
+        condition: '',
+        surveyorComments: '',
+      });
     const [loading, setLoading] = useState(false);
     const updateField = (key: any, value: any) => {
         setResult((prevResult: any) => ({
           ...prevResult,
           [key]: value
         }))
+    }
+    const insertData = () => {
+        if (result) {
+            console.log(result?.age)
+        }
     }
     const __pickImage = async () => {
         try {
@@ -29,8 +46,19 @@ export default function folder() {
             });
             if (!result.canceled) {
                 setCapturedImage(result.assets[0]);
-                setResult('')
-                console.log("HErer",result.assets[0].uri )
+                setResult({
+                    equipmentName: '',
+                    location: '',
+                    manufacturer: '',
+                    model: '',
+                    serialNumber: '',
+                    equipmentType: '',
+                    size: '',
+                    age: '',
+                    material: '',
+                    condition: '',
+                    surveyorComments: '',
+                })
                 const response = await analyzeImage(result.assets[0].uri)
                 if (response.success) {
                     setResult(response.data)
@@ -82,18 +110,14 @@ export default function folder() {
                         <FontAwesome name='file' size={16} color="white" />
                     </View>
                 </TouchableOpacity>
-                {/* {
-                    lastSerialNumber?.length > 0 && (
-                        <TouchableOpacity onPress={__searchSerialNumber} className="flex-1 rounded bg-primary flex-row justify-center items-center h-10">
-                            <View className='flex flex-row justify-center items-center space-x-2'>
-                                <Text className="text-neutral-50 font-bold text-center">
-                                    Search
-                                </Text>
-                                <FontAwesome name='database' size={16} color="white" />
-                            </View>
-                        </TouchableOpacity>
-                    )
-                } */}
+                <TouchableOpacity onPress={insertData} className="flex-1 rounded bg-primary flex-row justify-center items-center h-10">
+                    <View className='flex flex-row justify-center items-center space-x-2'>
+                        <Text className="text-neutral-50 font-bold text-center">
+                            Search
+                        </Text>
+                        <FontAwesome name='database' size={16} color="white" />
+                    </View>
+                </TouchableOpacity>
             </View>
             {
                 loading ? (

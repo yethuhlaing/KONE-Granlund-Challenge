@@ -8,13 +8,37 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { Feather, FontAwesome, FontAwesome6 } from '@expo/vector-icons';
 import { keyIconMap } from 'constants/constant';
 import Toast from 'react-native-root-toast';
-
+type inventory = {
+    equipmentName: string,
+    location: string,
+    manufacturer: string,
+    model: string,
+    serialNumber: string,
+    equipmentType: string,
+    size: string,
+    age: string,
+    material: string,
+    condition: string,
+    surveyorComments: string,
+}
 export default function ScanPage() {
     const [facing, setFacing] = useState<CameraType>('back');
     const [permission, requestPermission] = useCameraPermissions();
     const cameraRef = useRef<CameraView>(null);
     const [capturedImage, setCapturedImage] = useState<CameraCapturedPicture | undefined >(undefined)
-    const [result, setResult] = useState('');
+    const [result, setResult] = useState({
+        equipmentName: '',
+        location: '',
+        manufacturer: '',
+        model: '',
+        serialNumber: '',
+        equipmentType: '',
+        size: '',
+        age: '',
+        material: '',
+        condition: '',
+        surveyorComments: '',
+    });
 
     const [startCamera, setStartCamera] = useState(true)
     const [previewVisible, setPreviewVisible] = useState(false)
@@ -46,7 +70,19 @@ export default function ScanPage() {
 
     const __startCamera = async () => {
         setCapturedImage(undefined)
-        setResult('')
+        setResult({
+            equipmentName: '',
+            location: '',
+            manufacturer: '',
+            model: '',
+            serialNumber: '',
+            equipmentType: '',
+            size: '',
+            age: '',
+            material: '',
+            condition: '',
+            surveyorComments: '',
+        })
         const { status } = await Camera.requestCameraPermissionsAsync()
         if (status === 'granted') {
             setStartCamera(true)
@@ -57,7 +93,19 @@ export default function ScanPage() {
 
     const __takePicture = async () => {
         setCapturedImage(undefined)
-        setResult('')
+        setResult({
+            equipmentName: '',
+            location: '',
+            manufacturer: '',
+            model: '',
+            serialNumber: '',
+            equipmentType: '',
+            size: '',
+            age: '',
+            material: '',
+            condition: '',
+            surveyorComments: '',
+        })
         if (cameraRef.current) {
             const options: CameraPictureOptions = {
                 quality: 0.5,
