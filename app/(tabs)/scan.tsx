@@ -1,6 +1,6 @@
 import { CameraCapturedPicture, CameraPictureOptions, CameraView, FlashMode, useCameraPermissions, CameraType, Camera } from 'expo-camera';
 import { useRef, useState } from 'react';
-import { Alert, Button, Image, ImageBackground, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Button, Image, ImageBackground, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { analyzeImage, capitalize, extractData, extractLastSerialNumber } from '../../libs/helper';
 import Card from 'components/Card';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -15,12 +15,19 @@ export default function ScanPage() {
     const [permission, requestPermission] = useCameraPermissions();
     const cameraRef = useRef<CameraView>(null);
     const [capturedImage, setCapturedImage] = useState<CameraCapturedPicture | undefined >(undefined)
-    const [lastSerialNumber, setLasterialNumber] = useState<string[]>([])
+    const [result, setResult] = useState('');
 
     const [startCamera, setStartCamera] = useState(true)
     const [previewVisible, setPreviewVisible] = useState(false)
     const [flashMode, setFlashMode] = useState<FlashMode | undefined>('off')
 
+
+    const updateField = (key: any, value: any) => {
+        setResult((prevResult: any) => ({
+          ...prevResult,
+          [key]: value
+        }))
+    }
     if (!permission) {
         // Camera permissions are still loading.
         return <View />;
@@ -40,7 +47,7 @@ export default function ScanPage() {
 
     const __startCamera = async () => {
         setCapturedImage(undefined)
-        setLasterialNumber([])
+        setResult('')
         const { status } = await Camera.requestCameraPermissionsAsync()
         if (status === 'granted') {
             setStartCamera(true)
@@ -51,7 +58,7 @@ export default function ScanPage() {
 
     const __takePicture = async () => {
         setCapturedImage(undefined)
-        setLasterialNumber([])
+        setResult('')
         if (cameraRef.current) {
             const options: CameraPictureOptions = {
                 quality: 0.5,
@@ -66,7 +73,6 @@ export default function ScanPage() {
             } catch (error) {
                 console.log(error)
             }
-
         }
 
     }
@@ -74,21 +80,8 @@ export default function ScanPage() {
         const response = await analyzeImage(capturedImage?.uri)
         if (response.success == true) {
             setStartCamera(false)
-
-            const OCRresult = extractLastSerialNumber(response.data);
-            console.log(OCRresult)
-            if (OCRresult.length == 0) {
-                Toast.show("Try to capture again!", {
-                    duration: Toast.durations.LONG,
-                    position: Toast.positions.TOP,
-                    shadow: true,
-                    animation: true,
-                    hideOnPress: true,
-                    delay: 0,
-                });
-            } else {
-                setLasterialNumber(OCRresult)
-            } 
+            setResult(response.data)
+            console.log(response.data)
         } else {
             Toast.show(response?.error as string, {
                 duration: Toast.durations.LONG,
@@ -133,17 +126,103 @@ export default function ScanPage() {
                         </CameraView>
                     )}
                 </View>
-            ) : 
-                (                    
-                    lastSerialNumber?.length ?
-                    (
-                        <ScanFound lastSerialNumber={lastSerialNumber[0]} __startCamera={__startCamera} />
-                    ) :
-                    (
-                        <ScanNotFound __startCamera={__startCamera} />
-                    )
+            ) : (
+                <View className="bg-[#ffffff] items-center space-y-5 p-4">
+                    <View className='flex flex-row space-x-3'>
+                        <TouchableOpacity onPress={__startCamera} className="flex-1 rounded bg-primary flex-row justify-center items-center h-10">
+                            <View className='flex flex-row justify-center items-center space-x-2'>
+                                <Text className="text-neutral-50 font-bold text-center">Back</Text>
+                                <FontAwesome name='rotate-left' size={16} color="white" />
+                            </View>
+                        </TouchableOpacity>
+                        {/* <TouchableOpacity onPress={__searchSerialNumber} className="flex-1 rounded bg-primary flex-row justify-center items-center h-10">
+        
+                            <View className='flex flex-row justify-center items-center space-x-2'>
+                                <Text className="text-neutral-50 font-bold text-center">
+                                    Search
+                                </Text>                        
+                                <FontAwesome name='database' size={16} color="white" />
+                            </View>
+                        </TouchableOpacity> */}
+                    </View>
+                    <ScrollView className='w-screen mb-10'>
+                        {
+                            result && Object.keys(result).length > 0 && (
+                                Object.entries(result).map(([key, value]) => (
+                                    <View key={key}>
+                                        <Card>
+                                            <View className='flex-row items-center'>
+                                                <FontAwesome name={keyIconMap[key] as any} size={20} style={{ marginRight: 10 }} color={"#1B55F5"} />
+                                                <Text className='font-bold text-lg pr-2'>{capitalize(key.replace(/_/g, ' '))}</Text>
+                                                <TextInput
+                                                    value={value || ''}
+                                                    onChangeText={(text) => updateField(key, text)}
+                                                    placeholder={`Enter ${key}`}
+                                                    className="p-2 border rounded"
+                                                    />
+                                            </View>
+                                        </Card>
+                                    </View>
+                                ))
+                            ) 
+                        } 
+                    </ScrollView>
+
+                </View>
+            )
+            
+                // (                    
+                //     result?.length ?
+                //     (
+                //         <View className="bg-[#ffffff] items-center space-y-5 p-4">
+                //             <View className='flex flex-row space-x-3'>
+                //                 <TouchableOpacity onPress={__startCamera} className="flex-1 rounded bg-primary flex-row justify-center items-center h-10">
+                //                     <View className='flex flex-row justify-center items-center space-x-2'>
+                //                         <Text className="text-neutral-50 font-bold text-center">Back</Text>
+                //                         <FontAwesome name='rotate-left' size={16} color="white" />
+                //                     </View>
+                //                 </TouchableOpacity>
+                //                 {/* <TouchableOpacity onPress={__searchSerialNumber} className="flex-1 rounded bg-primary flex-row justify-center items-center h-10">
+                
+                //                     <View className='flex flex-row justify-center items-center space-x-2'>
+                //                         <Text className="text-neutral-50 font-bold text-center">
+                //                             Search
+                //                         </Text>                        
+                //                         <FontAwesome name='database' size={16} color="white" />
+                //                     </View>
+                //                 </TouchableOpacity> */}
+                //             </View>
+                //             <View>
+                //                 <Text className="text-center text-[#15803d] p-3">
+                //                     Last Serial Number - {result}
+                //                 </Text>
+                            
+                    
+                //                 {/* <ScrollView className='w-screen mb-10'>
+                //                     {
+                //                         generalResult && Object.keys(generalResult).length > 0 && (
+                //                             Object.entries(generalResult).map(([key, value]) => (
+                //                                 <View key={key}>
+                //                                     <Card>
+                //                                         <View className='flex-row items-center'>
+                //                                             <FontAwesome name={keyIconMap[key] as any} size={20} style={{ marginRight: 10 }} color={"#1B55F5"} />
+                //                                             <Text className='font-bold text-lg'>{capitalize(key.replace(/_/g, ' '))}</Text>
+                //                                         </View>
+                //                                         <Text className='text-sm p-2'>{value?.toString()}</Text>
+                //                                     </Card>
+                //                                 </View>
+                //                             ))
+                //                         ) 
+                //                     } 
+                //                 </ScrollView> */}
+                //             </View>
+                //         </View>
+                //     ) :
+                //     (
+                //         <ScanNotFound __startCamera={__startCamera} />
+                //     )
                        
-                )
+                // )
             }
         </View>
     );

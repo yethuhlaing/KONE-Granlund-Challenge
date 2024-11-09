@@ -8,8 +8,8 @@
     "scheme": "danfoss-machine-vision-app",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/Danfoss-bg.jpg",
-      "resizeMode": "cover",
+      "image": "./assets/images/kone.jpg",
+      "resizeMode": "fill",
       "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": [
