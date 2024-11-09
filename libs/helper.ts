@@ -48,9 +48,8 @@ const getMimeType = (uri: string) => {
 
 export async function analyzeImage(imageUri: string | undefined): Promise<ResponseType> {
 
-    
-    const GOOGLE_GEMINI_API_KEY = "AIzaSyAgkw1weC737q56Ach54Y5cwBk3JimufQ4"
-    const genAI = new GoogleGenerativeAI(GOOGLE_GEMINI_API_KEY);
+    const api_key = Environment['GOOGLE_GEMINI_API_KEY']
+    const genAI = new GoogleGenerativeAI(api_key);
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     const prompt = `Analyze the image and provide the following information in a valid JSON format:
@@ -65,8 +64,8 @@ export async function analyzeImage(imageUri: string | undefined): Promise<Respon
       "age": "",
       "material": "",
       "condition": "",
-      "surveyorComments": ""
-      "guid": ""
+      "surveyorComments": "",
+      "guid": "",
     }
     Ensure that the response is a properly formatted JSON object. Do not include any text before or after the JSON object.`;
     // const imagePath = path.join(process.cwd(), "assets/pictures/20200124_092048.jpg");
