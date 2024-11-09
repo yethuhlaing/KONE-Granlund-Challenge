@@ -66,6 +66,7 @@ export async function analyzeImage(imageUri: string | undefined): Promise<Respon
       "material": "",
       "condition": "",
       "surveyorComments": ""
+      "guid": ""
     }
     Ensure that the response is a properly formatted JSON object. Do not include any text before or after the JSON object.`;
     // const imagePath = path.join(process.cwd(), "assets/pictures/20200124_092048.jpg");
