@@ -34,44 +34,48 @@ export default function folder() {
         }))
     }
     const __insertData = async () => {
-        if (result) {
-            console.log(result)
-            db.runSync('INSERT INTO equipment (equipmentName, location, manufacturer, model, serialNumber, equipmentType, size, age, material, condition, surveyorComments, guid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-                result.equipmentName,
-                result.location,
-                result.manufacturer,
-                result.model,
-                result.serialNumber,
-                result.equipmentType,
-                result.size,
-                result.age,
-                result.material,
-                result.condition,
-                result.surveyorComments,
-                result.guid,
-                );
-            setResult({
-                    equipmentName: '',
-                    location: '',
-                    manufacturer: '',
-                    model: '',
-                    serialNumber: '',
-                    equipmentType: '',
-                    size: '',
-                    age: '',
-                    material: '',
-                    condition: '',
-                    surveyorComments: '',
-                    guid: ''
-                })
-            Toast.show("Successfully Added!", {
-                duration: Toast.durations.LONG,
-                position: Toast.positions.TOP,
-                shadow: true,
-                animation: true,
-                hideOnPress: true,
-                delay: 0,
-            });    
+        try {
+            if (result) {
+                console.log(result)
+                await db.runAsync('INSERT INTO equipment (equipmentName, location, manufacturer, model, serialNumber, equipmentType, size, age, material, condition, surveyorComments, guid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                    result.equipmentName,
+                    result.location,
+                    result.manufacturer,
+                    result.model,
+                    result.serialNumber,
+                    result.equipmentType,
+                    result.size,
+                    result.age,
+                    result.material,
+                    result.condition,
+                    result.surveyorComments,
+                    result.guid,
+                    );
+                setResult({
+                        equipmentName: '',
+                        location: '',
+                        manufacturer: '',
+                        model: '',
+                        serialNumber: '',
+                        equipmentType: '',
+                        size: '',
+                        age: '',
+                        material: '',
+                        condition: '',
+                        surveyorComments: '',
+                        guid: ''
+                    })
+                Toast.show("Successfully Added!", {
+                    duration: Toast.durations.LONG,
+                    position: Toast.positions.TOP,
+                    shadow: true,
+                    animation: true,
+                    hideOnPress: true,
+                    delay: 0,
+                });    
+            }
+        } catch (error) {
+            console.log(error)
         }
     }
     const __pickImage = async () => {
