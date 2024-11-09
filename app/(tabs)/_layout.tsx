@@ -7,6 +7,7 @@ import { ActivityIndicator, Text, View, Pressable, Image } from 'react-native';
 // import * as DocumentPicker from 'expo-document-picker';
 // import * as Sharing from 'expo-sharing';
 // import { DEFAULTDATABASE } from 'constants/constant';
+import { SQLiteProvider, useSQLiteContext, type SQLiteDatabase } from 'expo-sqlite';
 
 function TabBarIcon(props: {
     name: React.ComponentProps<typeof FontAwesome>['name'];
@@ -32,23 +33,7 @@ function TabBarIcon(props: {
 // };
 
 export default function TabLayout() {
-    // const [dbLoaded, setDbLoaded] = useState(false)
 
-
-    // useEffect(() => {
-    //     loadDatabase()
-    //         .then(() => setDbLoaded(true))
-    //         .catch((e) => console.error(e))
-    // }, [])
-
-    // if (!dbLoaded) {
-    //     return (
-    //         <View>
-    //             <ActivityIndicator size={"large"} />
-    //             <Text>Loading Database ...</Text>
-    //         </View>
-    //     )
-    // }
     return (
         <Suspense fallback={
             <View>
@@ -56,63 +41,95 @@ export default function TabLayout() {
                 <Text className='text-center'>Loading Database ...</Text>
             </View>
         }>
+            <SQLiteProvider databaseName='inventory.db.db' >
                 <Tabs>
                     <Tabs.Screen
-                        name="scan"
-                        options={{
-                            tabBarIcon: ({ color }) => (
-                                <TabBarIcon name="camera" color={color} />
-                            ),
-                            headerTitle: (props) => <Image source={require('../../assets/images/KONE_logo.png')} className='w-24 h-10'/>,
-                            tabBarActiveTintColor: "#1B55F5",
-                            headerRight: () => (
-                                <Link href="/(modals)/modal" asChild>
-                                    <Pressable>
-                                        {({ pressed }) => (
-                                            <FontAwesome
-                                                name="bars"
-                                                size={25}
-                                                style={{
-                                                    marginRight: 15,
-                                                    opacity: pressed ? 0.5 : 1,
-                                                    color: "#1B55F5"
-                                                }}
-                                            />
-                                        )}
-                                    </Pressable>
-                                </Link>
-                            ),
+                            name="home"
+                            options={{
+                                tabBarIcon: ({ color }) => (
+                                    <TabBarIcon name="home" color={color} />
+                                ),
+                                headerTitle: (props) => <Image source={require('../../assets/images/KONE_logo.png')} className='w-24 h-10'/>,
+                                tabBarActiveTintColor: "#1B55F5",
+                                headerRight: () => (
+                                    <Link href="/(modals)/modal" asChild>
+                                        <Pressable>
+                                            {({ pressed }) => (
+                                                <FontAwesome
+                                                    name="bars"
+                                                    size={25}
+                                                    style={{
+                                                        marginRight: 15,
+                                                        opacity: pressed ? 0.5 : 1,
+                                                        color: "#1B55F5"
+                                                    }}
+                                                />
+                                            )}
+                                        </Pressable>
+                                    </Link>
+                                ),
 
-                        }}
-                    />
-                    <Tabs.Screen
-                        name="folder"
-                        options={{
-                            tabBarIcon: ({ color }) => (
-                                <TabBarIcon name="folder" color={color} />
-                            ),
-                            tabBarActiveTintColor: "#1B55F5",
-                            headerTitle: (props) => <Image source={require('../../assets/images/KONE_logo.png')} className='w-24 h-10' />,
-                            headerRight: () => (
-                                <Link href="/(modals)/modal" asChild>
-                                    <Pressable>
-                                        {({ pressed }) => (
-                                            <FontAwesome
-                                                name="bars"
-                                                size={25}
-                                                style={{
-                                                    marginRight: 15,
-                                                    opacity: pressed ? 0.5 : 1,
-                                                    color: "#1B55F5"
-                                                }}
-                                            />
-                                        )}
-                                    </Pressable>
-                                </Link>
-                            ),
-                        }}
-                    />
+                            }}
+                        />
+                        <Tabs.Screen
+                            name="scan"
+                            options={{
+                                tabBarIcon: ({ color }) => (
+                                    <TabBarIcon name="camera" color={color} />
+                                ),
+                                headerTitle: (props) => <Image source={require('../../assets/images/KONE_logo.png')} className='w-24 h-10'/>,
+                                tabBarActiveTintColor: "#1B55F5",
+                                headerRight: () => (
+                                    <Link href="/(modals)/modal" asChild>
+                                        <Pressable>
+                                            {({ pressed }) => (
+                                                <FontAwesome
+                                                    name="bars"
+                                                    size={25}
+                                                    style={{
+                                                        marginRight: 15,
+                                                        opacity: pressed ? 0.5 : 1,
+                                                        color: "#1B55F5"
+                                                    }}
+                                                />
+                                            )}
+                                        </Pressable>
+                                    </Link>
+                                ),
+
+                            }}
+                        />
+                        <Tabs.Screen
+                            name="folder"
+                            options={{
+                                tabBarIcon: ({ color }) => (
+                                    <TabBarIcon name="folder" color={color} />
+                                ),
+                                tabBarActiveTintColor: "#1B55F5",
+                                headerTitle: (props) => <Image source={require('../../assets/images/KONE_logo.png')} className='w-24 h-10' />,
+                                headerRight: () => (
+                                    <Link href="/(modals)/modal" asChild>
+                                        <Pressable>
+                                            {({ pressed }) => (
+                                                <FontAwesome
+                                                    name="bars"
+                                                    size={25}
+                                                    style={{
+                                                        marginRight: 15,
+                                                        opacity: pressed ? 0.5 : 1,
+                                                        color: "#1B55F5"
+                                                    }}
+                                                />
+                                            )}
+                                        </Pressable>
+                                    </Link>
+                                ),
+                            }}
+                        />
                 </Tabs>
+            </SQLiteProvider>
+
+ 
 
         </Suspense>
 

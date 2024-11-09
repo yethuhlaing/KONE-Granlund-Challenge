@@ -6,9 +6,12 @@ import Card from 'components/Card';
 import { FontAwesome } from '@expo/vector-icons';
 import { keyIconMap } from 'constants/constant';
 import Toast from 'react-native-root-toast';
+import {  getAllData } from '../../database/db'; // Adjust the path as needed
+import * as SQLite from 'expo-sqlite';
 
 export default function folder() {
     const [capturedImage, setCapturedImage] = useState< undefined | ImagePicker.ImagePickerAsset>(undefined)
+    const db = SQLite.useSQLiteContext();
     const [result, setResult] = useState({
         equipmentName: '',
         location: '',
@@ -29,9 +32,30 @@ export default function folder() {
           [key]: value
         }))
     }
-    const insertData = () => {
+    const insertInventory = () => {
         if (result) {
-            console.log(result?.age)
+            try {
+                    const da = db.runAsync(
+                        'INSERT INTO equipment (equipmentName, location, manufacturer, model, serialNumber, equipmentType, size, age, material, condition, surveyorComments) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                        [
+                            result.equipmentName,
+                            result.location,
+                            result.manufacturer,
+                            result.model,
+                            result.serialNumber,
+                            result.equipmentType,
+                            result.size,
+                            result.age,
+                            result.material,
+                            result.condition,
+                            result.surveyorComments,
+                        ]);
+                        console.log(da.lastInsertRowId, da.changes);
+                
+                    
+            } catch (error) {
+                console.log(error)
+            }
         }
     }
     const __pickImage = async () => {
@@ -110,10 +134,10 @@ export default function folder() {
                         <FontAwesome name='file' size={16} color="white" />
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={insertData} className="flex-1 rounded bg-primary flex-row justify-center items-center h-10">
+                <TouchableOpacity onPress={insertInventory} className="flex-1 rounded bg-primary flex-row justify-center items-center h-10">
                     <View className='flex flex-row justify-center items-center space-x-2'>
                         <Text className="text-neutral-50 font-bold text-center">
-                            Search
+                            Insert
                         </Text>
                         <FontAwesome name='database' size={16} color="white" />
                     </View>
