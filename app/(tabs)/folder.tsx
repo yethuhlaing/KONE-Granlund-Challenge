@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image, ScrollView, ImageSourcePropType, ActivityIndicator } from 'react-native'
+import { View, Text, TouchableOpacity, Image, ScrollView, ImageSourcePropType, ActivityIndicator, TextInput } from 'react-native'
 import React, { useState } from 'react'
 import * as ImagePicker from 'expo-image-picker';
 import { analyzeImage, capitalize, extractData, extractLastSerialNumber } from '../../libs/helper';
@@ -10,11 +10,15 @@ import Toast from 'react-native-root-toast';
 
 export default function folder() {
     const [capturedImage, setCapturedImage] = useState< undefined | ImagePicker.ImagePickerAsset>(undefined)
-    const [lastSerialNumber, setLasterialNumber] = useState<string[]>([])
-    const [generalResult, setGeneralResult] = useState({})
+    const [result, setResult] = useState('');
     const [loading, setLoading] = useState(false);
     const db = useSQLiteContext()
-
+    const updateField = (key: any, value: any) => {
+        setResult((prevResult: any) => ({
+          ...prevResult,
+          [key]: value
+        }))
+    }
     const __pickImage = async () => {
         try {
             setLoading(true);
@@ -27,24 +31,12 @@ export default function folder() {
             });
             if (!result.canceled) {
                 setCapturedImage(result.assets[0]);
-                setGeneralResult({})
-
+                setResult('')
+                console.log("HErer",result.assets[0].uri )
                 const response = await analyzeImage(result.assets[0].uri)
                 if (response.success) {
-                    const serialNumberOutput = extractLastSerialNumber(response.data);
-                    console.log(serialNumberOutput)
-                    if (serialNumberOutput.length == 0) {
-                        Toast.show("Serial number not Captured!", {
-                            duration: Toast.durations.LONG,
-                            position: Toast.positions.TOP,
-                            shadow: true,
-                            animation: true,
-                            hideOnPress: true,
-                            delay: 0,
-                        });
-                    } else {
-                        setLasterialNumber(serialNumberOutput)
-                    }
+                    setResult(response.data)
+                    console.log(response.data)
                 } else{
                     Toast.show(response?.error as string, {
                         duration: Toast.durations.LONG,
@@ -79,9 +71,7 @@ export default function folder() {
         }
 
     };
-    const __searchSerialNumber = async () => {
-        extractData(db, lastSerialNumber[0], setGeneralResult)
-    }
+
     return (
         <View className='flex-1 bg-[#ffffff] items-center space-y-5 p-4'>
             <View className='flex flex-row justify-center items-center gap-3'>
@@ -94,7 +84,7 @@ export default function folder() {
                         <FontAwesome name='file' size={16} color="white" />
                     </View>
                 </TouchableOpacity>
-                {
+                {/* {
                     lastSerialNumber?.length > 0 && (
                         <TouchableOpacity onPress={__searchSerialNumber} className="flex-1 rounded bg-primary flex-row justify-center items-center h-10">
                             <View className='flex flex-row justify-center items-center space-x-2'>
@@ -105,37 +95,34 @@ export default function folder() {
                             </View>
                         </TouchableOpacity>
                     )
-                }
+                } */}
             </View>
             {
                 loading ? (
                     <ActivityIndicator size="large" color="#2f95dc" />
                 ): (
                     <View>
-                        {
-                            lastSerialNumber?.length > 0 &&
-                            (
-                                <Text className="text-center text-[#15803d] p-3">
-                                    Last serial Number - {lastSerialNumber}
-                                </Text>
-                            )
-                        }
-                        <ScrollView className='w-screen'>
+                        <ScrollView className='w-screen mb-10'>
                             {
-                                generalResult && Object.keys(generalResult).length > 0 && (
-                                    Object.entries(generalResult).map(([key, value]) => (
+                                result && Object.keys(result).length > 0 && (
+                                    Object.entries(result).map(([key, value]) => (
                                         <View key={key}>
                                             <Card>
                                                 <View className='flex-row items-center'>
                                                     <FontAwesome name={keyIconMap[key] as any} size={20} style={{ marginRight: 10 }} color={"#1B55F5"} />
-                                                    <Text className='font-bold text-lg'>{capitalize(key.replace(/_/g, ' '))}</Text>
+                                                    <Text className='font-bold text-lg pr-2'>{capitalize(key.replace(/_/g, ' '))}</Text>
+                                                    <TextInput
+                                                        value={value || ''}
+                                                        onChangeText={(text) => updateField(key, text)}
+                                                        placeholder={`Enter ${key}`}
+                                                        className="p-2 border rounded"
+                                                        />
                                                 </View>
-                                                <Text className='text-sm p-2'>{value?.toString()}</Text>
                                             </Card>
                                         </View>
                                     ))
-                                )
-                            }
+                                ) 
+                            } 
                         </ScrollView>
                     </View>
                 )
