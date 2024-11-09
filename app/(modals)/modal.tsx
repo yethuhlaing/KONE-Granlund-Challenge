@@ -16,14 +16,8 @@ export default function ModalScreen() {
                     </TouchableOpacity>
                 </Link>
                 <View className='border-[0.3px] border-neutral-300 mx-2'></View>
-                <TouchableOpacity className='p-4 ' onPress={() => {
-                    Linking.openURL("https://www.danfoss.com/en/terms/")
-                }}>
-                    <Text className='text-[#1b55f5] '>Terms of Use</Text>      
-                </TouchableOpacity>
-                <View className='border-[0.3px] border-neutral-300 mx-2'></View>
                 <TouchableOpacity className='p-4' onPress={() => {
-                    Linking.openURL("https://www.danfoss.com/en/terms/privacy/")
+                    Linking.openURL("https://www.granlundgroup.com/privacy-policy/")
                 }}>
                     <Text className='text-[#1b55f5]'>Privacy Policy</Text>
                 </TouchableOpacity>

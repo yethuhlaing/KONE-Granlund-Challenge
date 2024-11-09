@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 import * as ImagePicker from 'expo-image-picker';
 import { analyzeImage, capitalize, extractData, extractLastSerialNumber } from '../../libs/helper';
 import Card from 'components/Card';
-import { useSQLiteContext } from 'expo-sqlite';
 import { FontAwesome } from '@expo/vector-icons';
 import { keyIconMap } from 'constants/constant';
 import Toast from 'react-native-root-toast';
@@ -12,7 +11,6 @@ export default function folder() {
     const [capturedImage, setCapturedImage] = useState< undefined | ImagePicker.ImagePickerAsset>(undefined)
     const [result, setResult] = useState('');
     const [loading, setLoading] = useState(false);
-    const db = useSQLiteContext()
     const updateField = (key: any, value: any) => {
         setResult((prevResult: any) => ({
           ...prevResult,

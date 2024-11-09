@@ -4,11 +4,11 @@
     "slug": "danfoss-machine-vision-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.ico",
+    "icon": "./assets/images/KONE_logo.png",
     "scheme": "danfoss-machine-vision-app",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/kone.jpg",
+      "image": "./assets/images/background.png",
       "resizeMode": "fill",
       "backgroundColor": "#ffffff"
     },
@@ -26,7 +26,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/granlund.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": [
@@ -37,7 +37,7 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/granlund"
     },
     "plugins": [
       "expo-router",

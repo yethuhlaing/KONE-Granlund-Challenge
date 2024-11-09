@@ -5,7 +5,6 @@ import { analyzeImage, capitalize, extractData, extractLastSerialNumber } from '
 import Card from 'components/Card';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-import { useSQLiteContext } from 'expo-sqlite';
 import { Feather, FontAwesome, FontAwesome6 } from '@expo/vector-icons';
 import { keyIconMap } from 'constants/constant';
 import Toast from 'react-native-root-toast';
@@ -293,10 +292,8 @@ const CameraScreen = ({ __handleFlashMode, __switchCamera, __exitCamera, __takeP
 function ScanFound({ lastSerialNumber, __startCamera }: any) {
     
     const [generalResult, setGeneralResult] = useState(undefined)
-    const db = useSQLiteContext()  
 
     const __searchSerialNumber = async () => {
-        extractData(db, lastSerialNumber, setGeneralResult)
         console.log(generalResult)
     }
     return (
@@ -309,7 +306,6 @@ function ScanFound({ lastSerialNumber, __startCamera }: any) {
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={__searchSerialNumber} className="flex-1 rounded bg-primary flex-row justify-center items-center h-10">
-
                     <View className='flex flex-row justify-center items-center space-x-2'>
                         <Text className="text-neutral-50 font-bold text-center">
                             Search
