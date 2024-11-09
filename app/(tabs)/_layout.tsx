@@ -142,6 +142,33 @@ export default function TabLayout() {
                             ),
                         }}
                     />
+                    <Tabs.Screen
+                        name="view"
+                        options={{
+                            tabBarIcon: ({ color }) => (
+                                <TabBarIcon name="map" color={color} />
+                            ),
+                            tabBarActiveTintColor: "#1B55F5",
+                            headerTitle: (props) => <Image source={require('../../assets/images/KONE_logo.png')} className='w-24 h-10' />,
+                            headerRight: () => (
+                                <Link href="/(modals)/modal" asChild>
+                                    <Pressable>
+                                        {({ pressed }) => (
+                                            <FontAwesome
+                                                name="bars"
+                                                size={25}
+                                                style={{
+                                                    marginRight: 15,
+                                                    opacity: pressed ? 0.5 : 1,
+                                                    color: "#1B55F5"
+                                                }}
+                                            />
+                                        )}
+                                    </Pressable>
+                                </Link>
+                            ),
+                        }}
+                    />
                 </Tabs>
             </SQLiteProvider>
 
