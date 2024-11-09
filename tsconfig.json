@@ -30,6 +30,6 @@
     "app.d.ts",
     "expo-env.d.ts",
     "app/home/one.tsx"
-, "app/(tabs)/view.jsx"  ],
+  ],
   "extends": "expo/tsconfig.base"
 }
