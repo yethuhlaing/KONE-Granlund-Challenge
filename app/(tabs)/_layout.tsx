@@ -49,8 +49,8 @@ export default function TabLayout() {
                                 tabBarIcon: ({ color }) => (
                                     <TabBarIcon name="home" color={color} />
                                 ),
-                                headerTitle: (props) => <Image source={require('../../assets/images/KONE_logo.png')} className='w-24 h-10'/>,
-                                tabBarActiveTintColor: "#1B55F5",
+                                headerTitle: (props) => <Image source={require('../../assets/images/header-logo.png')} className='w-24 h-10'/>,
+                                tabBarActiveTintColor: "#37b34a",
                                 headerRight: () => (
                                     <Link href="/(modals)/modal" asChild>
                                         <Pressable>
@@ -77,8 +77,8 @@ export default function TabLayout() {
                                 tabBarIcon: ({ color }) => (
                                     <TabBarIcon name="camera" color={color} />
                                 ),
-                                headerTitle: (props) => <Image source={require('../../assets/images/KONE_logo.png')} className='w-24 h-10'/>,
-                                tabBarActiveTintColor: "#1B55F5",
+                                headerTitle: (props) => <Image source={require('../../assets/images/header-logo.png')} className='w-24 h-10'/>,
+                                tabBarActiveTintColor: "#37b34a",
                                 headerRight: () => (
                                     <Link href="/(modals)/modal" asChild>
                                         <Pressable>
@@ -105,8 +105,8 @@ export default function TabLayout() {
                                 tabBarIcon: ({ color }) => (
                                     <TabBarIcon name="folder" color={color} />
                                 ),
-                                tabBarActiveTintColor: "#1B55F5",
-                                headerTitle: (props) => <Image source={require('../../assets/images/KONE_logo.png')} className='w-24 h-10' />,
+                                tabBarActiveTintColor: "#37b34a",
+                                headerTitle: (props) => <Image source={require('../../assets/images/header-logo.png')} className='w-24 h-10' />,
                                 headerRight: () => (
                                     <Link href="/(modals)/modal" asChild>
                                         <Pressable>

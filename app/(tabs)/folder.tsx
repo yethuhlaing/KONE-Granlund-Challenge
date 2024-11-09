@@ -171,14 +171,16 @@ export default function folder() {
                                     Object.entries(result).map(([key, value]) => (
                                         <View key={key}>
                                             <Card>
-                                                <View className='flex-row items-center'>
-                                                    <FontAwesome name={keyIconMap[key] as any} size={20} style={{ marginRight: 10 }} color={"#1B55F5"} />
-                                                    <Text className='font-bold text-lg pr-2'>{capitalize(key.replace(/_/g, ' '))}</Text>
+                                                <View className='flex-row justify-between'>
+                                                    <View className='flex-row items-center'>
+                                                        <FontAwesome name={keyIconMap[key] as any} size={20} style={{ marginRight: 10 }} color={"#1B55F5"} />
+                                                        <Text className='font-bold text-lg pr-2'>{capitalize(key.replace(/_/g, ' '))}</Text>
+                                                    </View>
                                                     <TextInput
                                                         value={value || ''}
                                                         onChangeText={(text) => updateField(key, text)}
                                                         placeholder={`Enter ${key}`}
-                                                        className="p-2 border rounded"
+                                                        className="p-2 border rounded w-[45%]"
                                                         />
                                                 </View>
                                             </Card>

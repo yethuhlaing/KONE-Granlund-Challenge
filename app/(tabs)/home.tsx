@@ -87,7 +87,7 @@ const Home = () => {
                 className="mt-4 p-2 bg-red-500 rounded-lg bg-[#1B55F5] w-full"
                 onPress={() => handleDelete(item.id!)}
               >
-                <Text className="text-white text-center font-semibold">Delete</Text>
+                <Text className="text-[#ffffff] text-center font-semibold">Delete</Text>
               </TouchableOpacity>
             </View>
 
