@@ -11,6 +11,7 @@ export const keyIconMap: { [key: string]: string } = {
     material: 'cube',                     // represents material
     condition: 'heartbeat',               // represents condition or health
     surveyorComments: 'comments',     // represents comments or feedback
+    guid: 'key',
 };
 
 const tintColorLight = '#2f95dc';

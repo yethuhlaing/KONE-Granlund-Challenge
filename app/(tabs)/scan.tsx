@@ -8,19 +8,8 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { Feather, FontAwesome, FontAwesome6 } from '@expo/vector-icons';
 import { keyIconMap } from 'constants/constant';
 import Toast from 'react-native-root-toast';
-type inventory = {
-    equipmentName: string,
-    location: string,
-    manufacturer: string,
-    model: string,
-    serialNumber: string,
-    equipmentType: string,
-    size: string,
-    age: string,
-    material: string,
-    condition: string,
-    surveyorComments: string,
-}
+import { useSQLiteContext } from 'expo-sqlite';
+
 export default function ScanPage() {
     const [facing, setFacing] = useState<CameraType>('back');
     const [permission, requestPermission] = useCameraPermissions();
@@ -38,11 +27,12 @@ export default function ScanPage() {
         material: '',
         condition: '',
         surveyorComments: '',
-    });
-
+        guid: ''
+      });
     const [startCamera, setStartCamera] = useState(true)
     const [previewVisible, setPreviewVisible] = useState(false)
     const [flashMode, setFlashMode] = useState<FlashMode | undefined>('off')
+    const db = useSQLiteContext();
 
 
     const updateField = (key: any, value: any) => {
@@ -66,8 +56,6 @@ export default function ScanPage() {
         );
     }
 
-
-
     const __startCamera = async () => {
         setCapturedImage(undefined)
         setResult({
@@ -82,7 +70,8 @@ export default function ScanPage() {
             material: '',
             condition: '',
             surveyorComments: '',
-        })
+            guid: ''
+          })
         const { status } = await Camera.requestCameraPermissionsAsync()
         if (status === 'granted') {
             setStartCamera(true)
@@ -105,7 +94,8 @@ export default function ScanPage() {
             material: '',
             condition: '',
             surveyorComments: '',
-        })
+            guid: ''
+          })
         if (cameraRef.current) {
             const options: CameraPictureOptions = {
                 quality: 0.5,
@@ -161,6 +151,46 @@ export default function ScanPage() {
             setFacing('back')
         }
     }
+    const __insertData = async () => {
+        if (result) {
+            db.runSync('INSERT INTO equipment (equipmentName, location, manufacturer, model, serialNumber, equipmentType, size, age, material, condition, surveyorComments, guid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                result.equipmentName,
+                result.location,
+                result.manufacturer,
+                result.model,
+                result.serialNumber,
+                result.equipmentType,
+                result.size,
+                result.age,
+                result.material,
+                result.condition,
+                result.surveyorComments,
+                result.guid
+                );
+            setResult({
+                equipmentName: '',
+                location: '',
+                manufacturer: '',
+                model: '',
+                serialNumber: '',
+                equipmentType: '',
+                size: '',
+                age: '',
+                material: '',
+                condition: '',
+                surveyorComments: '',
+                guid: ''
+                })
+            Toast.show("Successfully Added!", {
+                duration: Toast.durations.LONG,
+                position: Toast.positions.TOP,
+                shadow: true,
+                animation: true,
+                hideOnPress: true,
+                delay: 0,
+            });    
+        }
+    }
     return (
         <View className="flex-1">
             {startCamera ? (
@@ -182,15 +212,14 @@ export default function ScanPage() {
                                 <FontAwesome name='rotate-left' size={16} color="white" />
                             </View>
                         </TouchableOpacity>
-                        {/* <TouchableOpacity onPress={__searchSerialNumber} className="flex-1 rounded bg-primary flex-row justify-center items-center h-10">
-        
+                        <TouchableOpacity onPress={__insertData} className="flex-1 rounded bg-primary flex-row justify-center items-center h-10">
                             <View className='flex flex-row justify-center items-center space-x-2'>
                                 <Text className="text-neutral-50 font-bold text-center">
-                                    Search
-                                </Text>                        
+                                    Insert
+                                </Text>
                                 <FontAwesome name='database' size={16} color="white" />
                             </View>
-                        </TouchableOpacity> */}
+                        </TouchableOpacity>
                     </View>
                     <ScrollView className='w-screen mb-10'>
                         {

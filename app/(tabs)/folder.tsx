@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image, ScrollView, ImageSourcePropType, ActivityIndicator, TextInput } from 'react-native'
+import { View, Text, TouchableOpacity, Image, ScrollView, ImageSourcePropType, ActivityIndicator, TextInput, Alert } from 'react-native'
 import React, { useState } from 'react'
 import * as ImagePicker from 'expo-image-picker';
 import { analyzeImage, capitalize, extractData, extractLastSerialNumber } from '../../libs/helper';
@@ -24,6 +24,7 @@ export default function folder() {
         material: '',
         condition: '',
         surveyorComments: '',
+        guid: ''
       });
     const [loading, setLoading] = useState(false);
     const updateField = (key: any, value: any) => {
@@ -32,30 +33,44 @@ export default function folder() {
           [key]: value
         }))
     }
-    const insertInventory = () => {
+    const __insertData = async () => {
         if (result) {
-            try {
-                    const da = db.runAsync(
-                        'INSERT INTO equipment (equipmentName, location, manufacturer, model, serialNumber, equipmentType, size, age, material, condition, surveyorComments) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-                        [
-                            result.equipmentName,
-                            result.location,
-                            result.manufacturer,
-                            result.model,
-                            result.serialNumber,
-                            result.equipmentType,
-                            result.size,
-                            result.age,
-                            result.material,
-                            result.condition,
-                            result.surveyorComments,
-                        ]);
-                        console.log(da.lastInsertRowId, da.changes);
-                
-                    
-            } catch (error) {
-                console.log(error)
-            }
+            db.runSync('INSERT INTO equipment (equipmentName, location, manufacturer, model, serialNumber, equipmentType, size, age, material, condition, surveyorComments, guid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                result.equipmentName,
+                result.location,
+                result.manufacturer,
+                result.model,
+                result.serialNumber,
+                result.equipmentType,
+                result.size,
+                result.age,
+                result.material,
+                result.condition,
+                result.surveyorComments,
+                result.guid
+                );
+            setResult({
+                equipmentName: '',
+                location: '',
+                manufacturer: '',
+                model: '',
+                serialNumber: '',
+                equipmentType: '',
+                size: '',
+                age: '',
+                material: '',
+                condition: '',
+                surveyorComments: '',
+                guid: ''
+                })
+            Toast.show("Successfully Added!", {
+                duration: Toast.durations.LONG,
+                position: Toast.positions.TOP,
+                shadow: true,
+                animation: true,
+                hideOnPress: true,
+                delay: 0,
+            });    
         }
     }
     const __pickImage = async () => {
@@ -82,7 +97,8 @@ export default function folder() {
                     material: '',
                     condition: '',
                     surveyorComments: '',
-                })
+                    guid: '',
+                  })
                 const response = await analyzeImage(result.assets[0].uri)
                 if (response.success) {
                     setResult(response.data)
@@ -134,7 +150,7 @@ export default function folder() {
                         <FontAwesome name='file' size={16} color="white" />
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={insertInventory} className="flex-1 rounded bg-primary flex-row justify-center items-center h-10">
+                <TouchableOpacity onPress={__insertData} className="flex-1 rounded bg-primary flex-row justify-center items-center h-10">
                     <View className='flex flex-row justify-center items-center space-x-2'>
                         <Text className="text-neutral-50 font-bold text-center">
                             Insert

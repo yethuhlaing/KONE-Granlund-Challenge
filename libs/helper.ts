@@ -6,7 +6,21 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 import fs from 'fs';
 import path from 'path'
 import { google } from '@ai-sdk/google'
-
+type inventory = {
+    id?: string,
+    equipmentName: string,
+    location: string,
+    manufacturer: string,
+    model: string,
+    serialNumber: string,
+    equipmentType: string,
+    size: string,
+    age: string,
+    material: string,
+    condition: string,
+    surveyorComments: string,
+    guid: string
+  }
 type ResponseType =
     | { success: false; error: string | undefined }
     | { success: true; data: inventory };
@@ -31,19 +45,7 @@ const getMimeType = (uri: string) => {
     }
 };
 
-type inventory = {
-    equipmentName: string,
-    location: string,
-    manufacturer: string,
-    model: string,
-    serialNumber: string,
-    equipmentType: string,
-    size: string,
-    age: string,
-    material: string,
-    condition: string,
-    surveyorComments: string,
-}
+
 export async function analyzeImage(imageUri: string | undefined): Promise<ResponseType> {
 
     
@@ -90,7 +92,7 @@ export async function analyzeImage(imageUri: string | undefined): Promise<Respon
             },
           };
         const result = await model.generateContent([prompt, imagePart]);
-        const jsonResult = JSON.parse(result.response.text()) as inventory;
+        const jsonResult = JSON.parse(result.response.text());
         if (jsonResult) {
             return {
                 success: true,

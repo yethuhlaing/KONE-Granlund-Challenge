@@ -41,7 +41,7 @@ export default function TabLayout() {
                 <Text className='text-center'>Loading Database ...</Text>
             </View>
         }>
-            <SQLiteProvider databaseName='inventory.db.db' >
+            <SQLiteProvider databaseName='inventory' >
                 <Tabs>
                     <Tabs.Screen
                             name="home"
