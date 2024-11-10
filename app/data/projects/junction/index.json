@@ -1,0 +1,29 @@
+{
+    "id": "Junction",
+    "name": "Junction",
+    "models": [
+        {
+            "id": "floor-plan",
+            "name": "Junction",
+            "pbrEnabled": true
+        },
+        {
+            "id": "test-equipment-data",
+            "name": "Test Equipment Data",
+            "pbrEnabled": true
+        }
+    ],
+    "viewerConfigs": {
+    },
+    "viewerContent": {
+        "modelsLoaded": [
+            "floor-plan"
+        ]
+    },
+    "viewerState": {
+        "tabOpen": "classes",
+        "expandObjectsTree": 1,
+        "expandClassesTree": 1,
+        "expandStoreysTree": 1
+    }
+}
