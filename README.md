@@ -1,6 +1,5 @@
 # KONE - Granlund Challenge
 
-Danfoss manufactures electric machines and power electronic converters. Each unit has a unique serial number displayed on a rating plate. During production, all electric machines undergo an End-of-Line (EoL) test, where various electrical parameters are measured and stored in an SQlite database.
 
 ## Problem
 Building maintenance teams face significant challenges in managing equipment inventories. Current processes are slow, labor-intensive, and prone to errors. Facility managers struggle with incomplete or outdated equipment data, leading to delays in maintenance, increased costs, and missed safety issues.
