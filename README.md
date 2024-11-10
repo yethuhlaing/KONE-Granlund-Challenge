@@ -4,13 +4,12 @@
 ## Problem
 Building maintenance teams face significant challenges in managing equipment inventories. Current processes are slow, labor-intensive, and prone to errors. Facility managers struggle with incomplete or outdated equipment data, leading to delays in maintenance, increased costs, and missed safety issues.
 
-## Solution
-Our solution is a smartphone-based app that automates equipment inventory using AI. By leveraging Google Gemini's image recognition and NLP, the app extracts equipment details (e.g., type, model, serial number, condition) from photos. The data is then integrated into a Building Information Model (BIM) for precise location tracking. The app allows facility managers to quickly gather accurate, up-to-date information, reducing time spent on manual surveys and improving overall maintenance efficiency.
-
 ## Demo
 
-[https://www.youtube.com/watch?si=4BqF_YwIgdi9FjVa&v=QhTrklrNets&feature=youtu.be
-](https://www.youtube.com/watch?v=QhTrklrNets)
+![Demo](https://www.youtube.com/watch?v=QhTrklrNets)
+
+## Solution
+Our solution is a smartphone-based app that automates equipment inventory using AI. By leveraging Google Gemini's image recognition and NLP, the app extracts equipment details (e.g., type, model, serial number, condition) from photos. The data is then integrated into a Building Information Model (BIM) for precise location tracking. The app allows facility managers to quickly gather accurate, up-to-date information, reducing time spent on manual surveys and improving overall maintenance efficiency.
 
 ![2](https://github.com/user-attachments/assets/501026ff-7c85-4338-908e-25f667224cb9)
 ![3](https://github.com/user-attachments/assets/47aeade8-8243-4db3-aee9-d00296e4c39b)
